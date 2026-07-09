@@ -1,11 +1,21 @@
 -- ════════════════════════════════════════════════════════════════════════
--- Kiro Hyprland (DankMaterialShell) baseline config  (hyprland.lua)
+-- Kiro Hyprland (DankMaterialShell) — HQ dual-monitor config  (hyprland-hq-dualscreen.lua)
 -- ════════════════════════════════════════════════════════════════════════
+-- A COMPLETE, WORKING two-screen setup (10 workspaces pinned per screen,
+-- SUPER = left / SUPER+ALT = right) kept as a real-world reference alongside the
+-- single-monitor default. It targets a specific dual-BenQ workstation, so the
+-- `desc:` monitor strings and positions below are hardware-specific — swap in
+-- yours (`hyprctl monitors`). See the README "Dual-monitor setup" section.
+-- To activate it, replace the default config:
+--   cp ~/.config/kiro-hyprland-dms/hyprland-hq-dualscreen.lua \
+--      ~/.config/kiro-hyprland-dms/hyprland.lua
+-- then edit the monitor `desc:`/positions and reload (SUPER+SHIFT+R).
+-- ────────────────────────────────────────────────────────────────────────
 -- Target: Hyprland 0.55+ (Lua config format; hyprlang/.conf deprecated in 0.55).
--- Lives at: ~/.config/kiro-hyprland-dms/hyprland.lua  (Hyprland is pointed here
--- by the kiro-hyprland-dms-session wrapper via `--config`; the sibling
--- kiro-hyprland and kiro-hyprland-noctalia editions use ~/.config/kiro-hyprland/
--- and ~/.config/kiro-hyprland-noctalia/ the same way, so all coexist).
+-- Lives at: ~/.config/kiro-hyprland-dms/hyprland.lua
+--   Hyprland is pointed here by the kiro-hyprland-dms-session wrapper via
+--   `Hyprland --config`, so this edition never touches ~/.config/hypr/ and can
+--   coexist with the sibling kiro-hyprland / kiro-hyprland-noctalia editions.
 --
 -- Desktop shell: DankMaterialShell (DMS) — a Quickshell + Material 3 shell that
 -- provides the bar, launcher (spotlight), lock screen, notifications, wallpaper,
@@ -14,15 +24,7 @@
 -- `dms ipc call <target> <function>`.
 --
 -- Modeled on Omarchy's Lua config (the modern mainline reference) but carrying
--- Kiro/ArcoLinux's SUPER-based keybind philosophy. Uses ONLY the native hl.* API,
--- so it is self-contained. Unlike the classic kiro-hyprland edition it ships NO
--- waybar / mako / swaybg / rofi / hypridle / hyprlock — DMS owns all of that.
---
--- NOTE: DMS's own `dms setup` fully manages ~/.config/hypr/ (hyprland.lua +
--- dms/*.lua matugen fragments). This edition deliberately does NOT use that path
--- or `require("dms.*")`: it ships its own config folder and a static Kiro border,
--- mirroring the kiro-niri-dms decision. DMS still themes its bar + GTK apps from
--- the wallpaper via matugen at runtime; only the Hyprland border stays fixed.
+-- Kiro/ArcoLinux's SUPER-based keybind philosophy. Uses ONLY the native hl.* API.
 --
 -- API reference: https://wiki.hypr.land/Configuring/Start/
 -- DMS IPC:       https://danklinux.com/docs/dankmaterialshell
@@ -78,25 +80,34 @@ hl.env("WLR_RENDERER_ALLOW_SOFTWARE", "1")
 -- ── Monitors & scaling ─────────────────────────────────────────────────────
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/  (`hyprctl monitors` to list).
 -- Default: every output, preferred mode, auto position, scale 1 (good for 1080p/1440p).
-hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
+-- Single Monitor
+-- hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 
--- ── Dual monitor (OPTIONAL — see README "Dual-monitor setup") ──────────────
--- This edition can pin 10 workspaces to each of two screens (chadwm-style 10+10).
--- It is OFF by default because monitor names/positions are hardware-specific.
--- To enable: run `hyprctl monitors`, copy each output's `description`, then
--- comment out the single-monitor line above and uncomment/edit the block below
--- (and swap the SUPER workspace loop for the SUPER+ALT one — see README). A full
--- ready-made version ships as hyprland-hq-dualscreen.lua next to this file.
---
--- local mon_left  = "desc:YOUR LEFT MONITOR"    -- e.g. "desc:BNQ BenQ GW2780 <serial>"
--- local mon_right = "desc:YOUR RIGHT MONITOR"
--- hl.monitor({ output = mon_left,  mode = "1920x1080@60.0", position = "0x0",    scale = 1.0 })
--- hl.monitor({ output = mon_right, mode = "1920x1080@60.0", position = "1920x0", scale = 1.0 })
--- -- Left screen owns workspaces 1..10, right screen owns 11..20; `default` = startup ws.
--- for i = 1, 10 do
---   hl.workspace_rule({ workspace = tostring(i),      monitor = mon_left,  default = (i == 1) })
---   hl.workspace_rule({ workspace = tostring(i + 10), monitor = mon_right, default = (i == 1) })
--- end
+-- Dual monitor
+hl.monitor({
+    output = "desc:BNQ BenQ GW2780 K1M0156201Q",
+    mode = "1920x1080@60.0",
+    position = "2429x0",
+    scale = 1.0
+})
+hl.monitor({
+    output = "desc:BNQ BenQ GW2780 K1M0106301Q",
+    mode = "1920x1080@60.0",
+    position = "509x0",
+    scale = 1.0
+})
+
+-- ── Workspaces pinned to monitors (chadwm-style 10 + 10) ───────────────────
+-- Left screen owns workspaces 1..10, right screen owns 11..20. Because each
+-- workspace is bound to a monitor, `focus`/`move` on a workspace number always
+-- lands on that screen — so the number keys drive one screen and SUPER+ALT the
+-- other (see the keybind loop below). `default` picks each screen's startup ws.
+local mon_left  = "desc:BNQ BenQ GW2780 K1M0106301Q"   -- position 509x0  (left)
+local mon_right = "desc:BNQ BenQ GW2780 K1M0156201Q"   -- position 2429x0 (right)
+for i = 1, 10 do
+  hl.workspace_rule({ workspace = tostring(i),      monitor = mon_left,  default = (i == 1) })
+  hl.workspace_rule({ workspace = tostring(i + 10), monitor = mon_right, default = (i == 1) })
+end
 
 hl.env("GDK_SCALE", "1")
 -- HiDPI: bump both for crisp scaling, e.g.
@@ -206,8 +217,16 @@ hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 5,  bezier = "
 
 -- ── Window rules (0.53+ unified hl.window_rule) ────────────────────────────
 hl.window_rule({ match = { class = "^(Spotify)$" }, tile = true })
--- Send specific apps to a fixed workspace (example — see README "Dual-monitor setup"):
--- hl.window_rule({ match = { class = "^(firefox)$" }, workspace = "10 silent" })
+-- Firefox → always open on workspace 10 (silent = don't yank focus to it on launch).
+hl.window_rule({ match = { class = "^(firefox)$" }, workspace = "10 silent" })
+-- Vivaldi → workspace 20, Opera → workspace 19 (both silent).
+hl.window_rule({ match = { class = "^([Vv]ivaldi-stable)$" }, workspace = "20 silent" })
+hl.window_rule({ match = { class = "^([Oo]pera)$" },          workspace = "19 silent" })
+-- Pin workspaces to screens (persistent = always exist there):
+--   10 → LEFT screen  (BenQ at 509x0);  19 & 20 → RIGHT screen (BenQ at 2429x0).
+hl.workspace_rule({ workspace = "10", monitor = "desc:BNQ BenQ GW2780 K1M0106301Q", persistent = true })
+hl.workspace_rule({ workspace = "20", monitor = "desc:BNQ BenQ GW2780 K1M0156201Q", persistent = true })
+hl.workspace_rule({ workspace = "19", monitor = "desc:BNQ BenQ GW2780 K1M0156201Q", persistent = true })
 -- Smooth touchpad scrolling in terminals (from nemesis input config):
 hl.window_rule({ match = { class = "(Alacritty|kitty)" }, scroll_touchpad = 1.5 })
 -- Transparent terminal — compositor opacity (works in VBox/QEMU/bare-metal alike; Hyprland's
@@ -240,6 +259,10 @@ on_start("dms run")
 -- Kiro-branded out of the box (DMS then derives its matugen palette from it). Self-guards on
 -- a stamp file, so it is a no-op on every later login and never fights a user's later pick.
 on_start("~/.config/kiro-hyprland-dms/scripts/firstrun-wallpaper.sh")
+-- Auto-open browsers at login; the window rules above park them on their workspaces/screens.
+on_start("firefox")           -- → ws10, left screen
+on_start("vivaldi-stable")    -- → ws20, right screen
+on_start("opera")             -- → ws19, right screen
 -- Live ISO only: auto-launch the installer. archiso-gated; kiro_final strips this line on install.
 -- Wrapped in `sh -c` because hl.exec_cmd execs argv directly (no shell) — the `[ ]` test and `&&`
 -- need a real shell to be interpreted; a bare string would just try to exec a binary named "[".
@@ -364,14 +387,23 @@ bind(mod .. " + SHIFT + J", "Grow height",   hl.dsp.window.resize({ x = 0,   y =
 bind(mod .. " + mouse:272", "Move window",   hl.dsp.window.drag(),   { mouse = true })
 bind(mod .. " + mouse:273", "Resize window", hl.dsp.window.resize(), { mouse = true })
 
--- Workspaces 1..10 — code: keys are layout-independent (qwerty AND azerty in ONE file).
--- For the dual-screen 10+10 split (SUPER = left screen, SUPER+ALT = right screen), see
--- the README "Dual-monitor setup" section — it replaces this loop with the two-screen one.
-for ws = 1, 10 do
-  local key = "code:" .. tostring(ws + 9)            -- code:10 = "1" … code:19 = "0"
-  bind(mod .. " + " .. key,         "Workspace " .. ws,         hl.dsp.focus({ workspace = tostring(ws) }))
-  bind(mod .. " + CTRL + " .. key,  "Move to workspace " .. ws, hl.dsp.window.move({ workspace = tostring(ws) }))
-  bind(mod .. " + SHIFT + " .. key, "Send to workspace " .. ws, hl.dsp.window.move({ workspace = tostring(ws), follow = false }))
+-- Workspaces — split 10 + 10 across the two screens (chadwm-style; pinned by the
+-- hl.workspace_rule block near the monitor config). code: keys are layout-independent.
+--   SUPER + 1..0        → left-screen  workspaces 1..10
+--   SUPER + ALT + 1..0  → right-screen workspaces 11..20
+-- CTRL = move window (follow), SHIFT = send window (stay). ALT selects the right screen.
+for i = 1, 10 do
+  local key   = "code:" .. tostring(i + 9)   -- code:10 = "1" … code:19 = "0"
+  local left  = tostring(i)                  -- 1..10  → left monitor
+  local right = tostring(i + 10)             -- 11..20 → right monitor
+
+  bind(mod .. " + " .. key,               "Workspace " .. left,          hl.dsp.focus({ workspace = left }))
+  bind(mod .. " + CTRL + " .. key,        "Move to workspace " .. left,  hl.dsp.window.move({ workspace = left }))
+  bind(mod .. " + SHIFT + " .. key,       "Send to workspace " .. left,  hl.dsp.window.move({ workspace = left, follow = false }))
+
+  bind(mod .. " + ALT + " .. key,         "Workspace " .. right,         hl.dsp.focus({ workspace = right }))
+  bind(mod .. " + ALT + CTRL + " .. key,  "Move to workspace " .. right, hl.dsp.window.move({ workspace = right }))
+  bind(mod .. " + ALT + SHIFT + " .. key, "Send to workspace " .. right, hl.dsp.window.move({ workspace = right, follow = false }))
 end
 
 -- Workspace cycling
