@@ -68,6 +68,20 @@ Same Hyprland compositor, DMS as the shell. It is the Hyprland twin of
   schema). Wallpaper is branded once via `scripts/firstrun-wallpaper.sh` (guarded,
   polls for `dms ipc` readiness) — same pattern as `kiro-niri-dms`.
 
+## Quickshell / noctalia incompatibility (hard conflict)
+- DMS 1.5.0 needs the **modern upstream `quickshell`** (extra, 0.3.0+). The **noctalia editions**
+  (`kiro-hyprland-noctalia`, `kiro-niri-noctalia`, `kiro-hyprland-noctura`) pull `noctalia-shell` →
+  **`noctalia-qs`**, noctalia's own pinned Quickshell fork that `Provides`+`Conflicts` `quickshell`
+  and is too old for DMS (its `FileBrowserModal.qml` references a `parentWindow` property absent in
+  `noctalia-qs 0.0.12` → Quickshell exits 255 → the DMS shell/bar/wallpaper **silently never
+  render**, though the DMS go backend still answers IPC — a false "working" signal).
+- So the recipe lists **`quickshell` explicitly** in `depends` and **`conflicts=('noctalia-qs')`**,
+  making pacman refuse the incompatible mix at install time instead of shipping a black shell.
+  Consequence: **kiro-hyprland-dms cannot coexist with the noctalia editions** on one system (it
+  still coexists fine with the classic `kiro-hyprland`). Diagnosed on picard 2026-07-09; fix scoped
+  to this edition only for now (`kiro-niri-dms` has the same latent issue, left untouched). See
+  memory `dms-vs-noctalia-quickshell-conflict`.
+
 ## Sibling editions
 - **`kiro-hyprland`** (waybar/mako/rofi) and **`kiro-hyprland-noctalia`**
   (noctalia-shell) — same compositor, different shells. All ship **their own**
