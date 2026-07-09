@@ -1,0 +1,20 @@
+#!/bin/sh
+#####################################################################
+# Author    : Erik Dubois
+# Website   : https://kiroproject.be
+#####################################################################
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+# Purpose:
+#   Session entrypoint for the Kiro Hyprland (DankMaterialShell) edition,
+#   invoked by kiro-hyprland-dms.desktop. Starts Hyprland under uwsm and
+#   points it at this edition's own config folder
+#   (~/.config/kiro-hyprland-dms/hyprland.lua) via --config.
+# Why:
+#   kiro-hyprland, kiro-hyprland-noctalia and kiro-hyprland-dms all target
+#   Hyprland but ship different configs. A per-edition --config folder keeps
+#   them cleanly separate, so switching editions never inherits a sibling's
+#   stale ~/.config/hypr/.
+#####################################################################
+
+exec uwsm start -- Hyprland --config "$HOME/.config/kiro-hyprland-dms/hyprland.lua" "$@"

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Kiro Hyprland Dms
+Comment=Kiro Hyprland edition (Hyprland + DankMaterialShell)
+Exec=kiro-hyprland-dms-session
+Type=Application
+DesktopNames=Hyprland

@@ -1,0 +1,29 @@
+#!/bin/sh
+#####################################################################
+# Author    : Erik Dubois
+# Website   : https://kiroproject.be
+#####################################################################
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+# Purpose:
+#   Hide upstream Hyprland's plain sessions so only Kiro's own "Kiro
+#   Hyprland Dms" (and sibling Kiro Hyprland) entries are offered in the
+#   display manager. Stamps NoDisplay=true onto the hyprland.desktop and
+#   hyprland-uwsm.desktop files (owned by the hyprland package) when not
+#   already present.
+# Why:
+#   The Kiro edition reads ~/.config/kiro-hyprland-dms/ via --config; the
+#   plain "Hyprland" entries read the (empty on a Kiro box) ~/.config/hypr/,
+#   so picking one lands a blank default Hyprland. A pacman hook re-runs this
+#   after every hyprland upgrade (which restores the files), so it cannot
+#   regress.
+#####################################################################
+
+for desktop in \
+    /usr/share/wayland-sessions/hyprland.desktop \
+    /usr/share/wayland-sessions/hyprland-uwsm.desktop
+do
+    [ -f "$desktop" ] || continue
+    grep -q '^NoDisplay=true$' "$desktop" && continue
+    printf 'NoDisplay=true\n' >> "$desktop"
+done
