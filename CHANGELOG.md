@@ -6,6 +6,18 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 ## 2026.07.09
 
 ### What Changed
+- **Fix broken variety tray icon on the DMS bar.** Forced `QT_QPA_PLATFORMTHEME=gtk3`
+  in `hyprland.lua` so DMS's Qt6 Quickshell bar resolves SNI tray icons through the
+  gsettings icon theme (Surfn). Previously the global `/etc/environment`
+  `QT_QPA_PLATFORMTHEME=qt5ct` (a Qt5 plugin Qt6 can't load, no `qt6ct` installed)
+  left Quickshell on the `hicolor` fallback, so app-specific tray names like
+  `variety-indicator` — which live only in Surfn's `panel/` context — went blank and
+  fell back to the default icon. DMS already exported `QT_QPA_PLATFORMTHEME_QT6=gtk3`,
+  but Qt6 does not honour the versioned variable, so it was a no-op; the plain env now
+  overrides the global for this session. Diagnosed on picard (verified with a PySide6
+  probe: `qt5ct`→themeName `hicolor`, icon missing; `gtk3`→`Surfn`, icon resolves).
+
+### What Changed (initial package)
 - Initial config package: the **Hyprland + DankMaterialShell (DMS)** edition of
   the Kiro Wayland line. Sibling to `kiro-hyprland` (classic waybar stack) and
   `kiro-hyprland-noctalia` (noctalia-shell), on the same Hyprland compositor with

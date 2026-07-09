@@ -55,6 +55,13 @@ hl.env("HYPRCURSOR_SIZE", "12")
 hl.env("XCURSOR_THEME", "Bibata-Modern-Ice")
 hl.env("GDK_BACKEND", "wayland,x11,*")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
+-- Force the gtk3 Qt platform theme so DMS's Qt6 Quickshell bar resolves SNI tray
+-- icons via the gsettings icon theme (Surfn). The global /etc/environment sets
+-- QT_QPA_PLATFORMTHEME=qt5ct, which Qt6 can't load (no qt6ct) → it falls back to
+-- hicolor and app-specific tray icons like variety-indicator go blank. DMS exports
+-- QT_QPA_PLATFORMTHEME_QT6=gtk3, but Qt6 does not honour the versioned variable, so
+-- the plain one must win here.
+hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
 hl.env("MOZ_ENABLE_WAYLAND", "1")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 hl.env("OZONE_PLATFORM", "wayland")
