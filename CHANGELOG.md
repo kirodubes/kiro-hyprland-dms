@@ -42,10 +42,20 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   register, `screen` mode writes a valid 1920x1080 PNG plus clipboard plus toast, and
   the cancel path exits cleanly leaving no file and DMS mode back OFF.
 
+### Also today: moved to the shared helper
+- The private `scripts/screenshot.sh` above is **deleted** again in the same day, in favour of a
+  shared `/usr/bin/kiro-screenshot` now shipped by `kiro-wayland-dotfiles` — already a dependency of
+  this package. A sweep found the identical clipboard-only bind in eleven more Wayland editions, so
+  the logic belongs in one place rather than being fixed twelve times. The DMS `screenshot`
+  `begin`/`end` handshake documented above lives on inside the shared helper, guarded by
+  `command -v dms` so it is a no-op on the editions that don't run DMS.
+- Both binds now call `kiro-screenshot region` / `kiro-screenshot screen`. Behaviour is unchanged.
+- **Build `kiro-wayland-dotfiles` before this package**: it provides the binary these binds call.
+
 ### Files Modified
-- `etc/skel/.config/kiro-hyprland-dms/scripts/screenshot.sh` (new)
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
 - `etc/skel/.config/kiro-hyprland-dms/hyprland-hq-dualscreen.lua`
+- `etc/skel/.config/kiro-hyprland-dms/scripts/screenshot.sh` (added, then removed for the shared helper)
 - `etc/skel/.config/kiro-hyprland-dms/keybindings.txt`
 
 ## 2026.07.09

@@ -431,8 +431,6 @@ bind("XF86MonBrightnessUp",   "Brightness up",   run([[dms ipc call brightness i
 bind("XF86MonBrightnessDown", "Brightness down", run([[dms ipc call brightness decrement 5 ""]]), { locked = true })
 
 -- Screenshots
--- The helper saves a timestamped PNG in ~/Pictures/Screenshots, copies it to the
--- clipboard and notifies. The old binds piped grim into wl-copy and nothing else,
--- which left no file and no feedback, so Print looked like a dead key.
-bind("PRINT",           "Screenshot region", run("~/.config/kiro-hyprland-dms/scripts/screenshot.sh region"))
-bind(mod .. " + PRINT", "Screenshot screen", run("~/.config/kiro-hyprland-dms/scripts/screenshot.sh screen"))
+-- kiro-screenshot (kiro-wayland-dotfiles): PNG in ~/Pictures/Screenshots + clipboard + notify.
+bind("PRINT",           "Screenshot region", run("kiro-screenshot region"))
+bind(mod .. " + PRINT", "Screenshot screen", run("kiro-screenshot screen"))
