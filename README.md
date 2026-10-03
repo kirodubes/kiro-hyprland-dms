@@ -39,7 +39,7 @@ per-login.
 sudo pacman -S kiro-hyprland-dms
 ```
 
-`kiro-hyprland-dms` depends on `hyprland` + `dms-shell-hyprland` (both in Arch
+`kiro-hyprland-dms` depends on `hyprland` + `dms-shell` (both in Arch
 `extra`) plus the usual Wayland helpers. On a fresh login Hyprland starts DMS
 (`dms run`), which paints the bar and wallpaper and derives its Material palette
 from it. Press **Super + Ctrl + S** for the searchable keybindings cheat sheet.

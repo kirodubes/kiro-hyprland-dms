@@ -14,7 +14,7 @@ Same Hyprland compositor, DMS as the shell. It is the Hyprland twin of
 - **Config language:** Lua (`hl.*` API). Single `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
   (Hyprland pointed at it by the `kiro-hyprland-dms-session` wrapper via `--config`).
 - **Desktop shell:** **DankMaterialShell (DMS)** — a Quickshell + Material 3 shell
-  (`dms-shell-hyprland` from Arch `extra`, which pulls `dms-shell` for the `dms`
+  (`dms-shell` from Arch `extra`, which also ships the `dms`
   CLI). Provides bar, launcher (spotlight), lock, notifications, wallpaper, control
   center, session menu, polkit agent. Started with `dms run`; driven over
   `dms ipc call <target> <function>` (docs: danklinux.com/docs/dankmaterialshell).
@@ -27,7 +27,7 @@ Same Hyprland compositor, DMS as the shell. It is the Hyprland twin of
   bar + GTK apps. Hyprland's focus border is a **static** Kiro colour (Material
   default `#d0bcff`), NOT matugen-driven — see gotcha below. Base GTK look + cursor
   shipped via `/etc/dconf/`, owned by `kiro-wayland-dotfiles` (dconf consumer).
-- **Dependency note:** `dms-shell-hyprland` (+ `dms-shell`, `quickshell`, `dgop`,
+- **Dependency note:** `dms-shell` (+ `quickshell`, `dgop`,
   `accountsservice`) all come from Arch `extra` — nothing repackaged by Kiro.
   `matugen`, `cava`, `kimageformats` added for DMS. `power-profiles-daemon` is an
   optdepend (DMS `powerprofile` IPC). No `xwayland-satellite` (Hyprland has native
