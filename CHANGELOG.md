@@ -25,9 +25,11 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   session start 18:22:33, Kiro wallpaper at 18:22:37, stamp at 18:22:42.
 - DMS now shows its bar in VirtualBox. There, VirtualBox's GPU paths broke DMS's GPU rendering: on VBoxSVGA the
   bar was missing after login, and on VMSVGA + 3D Hyprland dropped the shell over invalid dmabuf modifiers. The
-  autostart now runs DMS with `QT_QUICK_BACKEND=software` when `systemd-detect-virt` reports `oracle`; real
-  hardware and QEMU keep GPU rendering. Tested on VirtualBox (VBoxSVGA): bar present after login, `qs` running
-  with the software backend. Tested on QEMU: DMS starts normally, no software backend.
+  autostart now runs DMS with `LIBGL_ALWAYS_SOFTWARE=1` (Mesa llvmpipe, OpenGL on the CPU) when
+  `systemd-detect-virt` reports `oracle`; real hardware and QEMU keep GPU rendering. A first version used
+  `QT_QUICK_BACKEND=software`, but Qt's software renderer left parts of the bar (launcher, workspaces) blank
+  until hovered. Tested on a VirtualBox install (VBoxSVGA): complete bar after login without hovering, Kiro
+  wallpaper set, and still set after skipping DMS's welcome window. Tested on QEMU: DMS starts normally.
 
 ### Technical Details
 - The new line is a `#` comment, which both kiro-keybindings parsers skip. Bindings are unchanged. All 111
