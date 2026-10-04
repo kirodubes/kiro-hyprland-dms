@@ -9,6 +9,10 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 - Added the user-friendly line to the `keybindings.txt` header: it lists the default bindings, and users can edit
   it to match their own. This brings it in line with `kiro-hyprland` and `kiro-niri-dms` (2026.09.27), where a
   user had expected the file to update itself after changing a binding.
+- Keybinding sweep after the DMS reference ISO was trimmed: Super+Shift+X now opens `archlinux-logout` (same as
+  Super+X) instead of `kiro-powermenu`, which needed rofi and is no longer on the ISO. Super+E and Super+F2 open
+  Sublime Text (`subl`) instead of VS Code. Ctrl+Alt+H (`hyprland-tweak-tool`, dropped from the ISO) is removed.
+  App keys for apps the ISO doesn't ship (Brave, Chromium, Vivaldi, OBS, GIMP, Inkscape...) stay on purpose.
 
 ### Technical Details
 - The new line is a `#` comment, which both kiro-keybindings parsers skip. Bindings are unchanged. All 111
@@ -16,6 +20,7 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/keybindings.txt`
+- `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
 
 ## 2026.10.03
 

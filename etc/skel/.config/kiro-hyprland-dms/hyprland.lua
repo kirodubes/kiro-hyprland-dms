@@ -34,9 +34,8 @@ local mod = "SUPER"
 local term        = "alacritty"
 local files       = "thunar"
 local browser     = "firefox"
-local editor      = "code"
+local editor      = "subl"                -- Sublime Text, the editor the ISO ships
 local logout      = "archlinux-logout"   -- Kiro logout dialog (archlinux-logout-gtk4), as on the other editions
-local powermenu   = "kiro-powermenu"
 local keybindings = "kiro-keybindings"   -- searchable PySide6/QML cheatsheet (auto-detects Hyprland)
 
 -- DMS shell entry points (dms ipc call <target> <function>).
@@ -264,7 +263,7 @@ bind(mod .. " + V",              "Volume control",   run("pavucontrol"))
 bind(mod .. " + Q",              "Close window",     hl.dsp.window.close())
 bind(mod .. " + SHIFT + Q",      "Close window",     hl.dsp.window.close())
 bind(mod .. " + X",              "Logout menu",      run(logout))
-bind(mod .. " + SHIFT + X",      "Power menu",       run(powermenu))
+bind(mod .. " + SHIFT + X",      "Logout menu",      run(logout))
 bind(mod .. " + Escape",         "Kill mode",        run("hyprctl kill"))
 bind(mod .. " + CTRL + S",       "Show keybindings", run(keybindings))
 bind("CTRL + ALT + K",           "Logout menu",      run(logout))
@@ -289,7 +288,6 @@ bind("CTRL + ALT + D",       "OBS Studio",      run("obs"))
 bind("CTRL + ALT + E",       "Tweak tool",      run("archlinux-tweak-tool"))
 bind("CTRL + ALT + F",       "Firefox",         run("firefox"))
 bind("CTRL + ALT + G",       "Chromium",        run("chromium -no-default-browser-check"))
-bind("CTRL + ALT + H",       "Tweak tool",      run("hyprland-tweak-tool"))
 bind("CTRL + ALT + I",       "Kiro ISO builder", run("kiro-iso-builder"))
 bind("CTRL + ALT + L",       "Logout settings", run("archlinux-logout --settings"))
 bind("CTRL + ALT + M",       "USB image writer", run("mintstick -m iso"))
@@ -309,7 +307,7 @@ bind("CTRL + SHIFT + Escape","System monitor",  run("alacritty --class btop -e b
 
 -- Function keys (Kiro scheme)
 bind(mod .. " + F1",  "Firefox",      run("firefox"))
-bind(mod .. " + F2",  "Code editor",  run("code"))
+bind(mod .. " + F2",  "Code editor",  run(editor))
 bind(mod .. " + F3",  "Inkscape",     run("inkscape"))
 bind(mod .. " + F4",  "GIMP",         run("gimp"))
 bind(mod .. " + F5",  "Meld",         run("meld"))

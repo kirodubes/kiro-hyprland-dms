@@ -19,7 +19,6 @@
   ctrl + alt + E          Tweak tool
   ctrl + alt + F          Firefox
   ctrl + alt + G          Chromium
-  ctrl + alt + H          Tweak tool
   ctrl + alt + I          Kiro ISO builder
   ctrl + alt + M          USB image writer
   ctrl + alt + O          Opera
@@ -121,7 +120,7 @@
 
 ── 8. System & Session ────────────────────────────────────────────────────────
   super + X               Logout menu
-  super + shift + X       Power menu
+  super + shift + X       Logout menu
   super + Escape          Kill mode
   super + ctrl + S        Show keybindings
   ctrl + alt + K          Logout menu
