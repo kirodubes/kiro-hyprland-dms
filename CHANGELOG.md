@@ -13,6 +13,9 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   Super+X) instead of `kiro-powermenu`, which needed rofi and is no longer on the ISO. Super+E and Super+F2 open
   Sublime Text (`subl`) instead of VS Code. Ctrl+Alt+H (`hyprland-tweak-tool`, dropped from the ISO) is removed.
   App keys for apps the ISO doesn't ship (Brave, Chromium, Vivaldi, OBS, GIMP, Inkscape...) stay on purpose.
+- btop is now transparent like the terminals. Ctrl+Alt+End and Ctrl+Shift+Escape start it as
+  `alacritty --class btop`, and the opacity rule only matched the class `Alacritty`, so btop stayed fully solid.
+  The rule now matches `^(Alacritty|btop)$` (0.90 focused / 0.85 unfocused). Tested on a QEMU install.
 
 ### Technical Details
 - The new line is a `#` comment, which both kiro-keybindings parsers skip. Bindings are unchanged. All 111
