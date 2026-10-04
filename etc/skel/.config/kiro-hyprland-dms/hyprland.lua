@@ -236,10 +236,11 @@ on_start("~/.config/kiro-hyprland-dms/scripts/import-gsettings.sh")   -- mirror 
 -- The whole desktop: DankMaterialShell (bar, launcher, lock, notifications, wallpaper,
 -- control center, session menu, polkit agent). `dms run` starts the Quickshell shell and
 -- its backend services — no separate polkit agent / bar / notifier is launched.
--- In VirtualBox, DMS renders in software: VirtualBox's GPU paths break its GPU rendering (no bar
--- at login on VBoxSVGA; Hyprland drops it over invalid dmabuf modifiers on VMSVGA + 3D).
--- Real hardware and QEMU keep GPU rendering. sh -c because on_start has no shell.
-on_start([[sh -c 'if [ "$(systemd-detect-virt)" = oracle ]; then export QT_QUICK_BACKEND=software; fi; exec dms run']])
+-- In VirtualBox, DMS renders OpenGL on the CPU (Mesa llvmpipe): VirtualBox's GPU paths break its
+-- GPU rendering (no bar at login on VBoxSVGA; Hyprland drops it over invalid dmabuf modifiers on
+-- VMSVGA + 3D). Not QT_QUICK_BACKEND=software: Qt's software renderer leaves parts of the bar blank
+-- until hovered. Real hardware and QEMU keep GPU rendering. sh -c because on_start has no shell.
+on_start([[sh -c 'if [ "$(systemd-detect-virt)" = oracle ]; then export LIBGL_ALWAYS_SOFTWARE=1; fi; exec dms run']])
 -- First-login only: point DMS's wallpaper at the shipped Kiro wallpaper so the desktop is
 -- Kiro-branded out of the box (DMS then derives its matugen palette from it). Self-guards on
 -- a stamp file, so it is a no-op on every later login and never fights a user's later pick.
