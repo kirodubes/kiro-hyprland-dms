@@ -23,6 +23,11 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   the wallpaper until `dms ipc call wallpaper get` returns `bg/kiro.jpg` on 10 checks in a row (~5s stable), for
   up to ~90s, and only then writes the stamp. Tested on a QEMU install with DMS's first-launch marker removed:
   session start 18:22:33, Kiro wallpaper at 18:22:37, stamp at 18:22:42.
+- DMS now shows its bar in VirtualBox. There, VirtualBox's GPU paths broke DMS's GPU rendering: on VBoxSVGA the
+  bar was missing after login, and on VMSVGA + 3D Hyprland dropped the shell over invalid dmabuf modifiers. The
+  autostart now runs DMS with `QT_QUICK_BACKEND=software` when `systemd-detect-virt` reports `oracle`; real
+  hardware and QEMU keep GPU rendering. Tested on VirtualBox (VBoxSVGA): bar present after login, `qs` running
+  with the software backend. Tested on QEMU: DMS starts normally, no software backend.
 
 ### Technical Details
 - The new line is a `#` comment, which both kiro-keybindings parsers skip. Bindings are unchanged. All 111
