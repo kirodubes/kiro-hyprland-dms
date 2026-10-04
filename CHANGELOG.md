@@ -3,6 +3,20 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.10.04
+
+### What Changed
+- Added the user-friendly line to the `keybindings.txt` header: it lists the default bindings, and users can edit
+  it to match their own. This brings it in line with `kiro-hyprland` and `kiro-niri-dms` (2026.09.27), where a
+  user had expected the file to update itself after changing a binding.
+
+### Technical Details
+- The new line is a `#` comment, which both kiro-keybindings parsers skip. Bindings are unchanged. All 111
+  `bind()` calls in `hyprland.lua` were checked against the file, and every one is documented.
+
+### Files Modified
+- `etc/skel/.config/kiro-hyprland-dms/keybindings.txt`
+
 ## 2026.10.03
 
 ### What Changed

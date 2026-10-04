@@ -1,6 +1,7 @@
 ###############################################################################
 #  KEYBINDINGS — Kiro Hyprland (DankMaterialShell)
 #  Source: etc/skel/.config/kiro-hyprland-dms/hyprland.lua
+#  Reference for the default bindings. Changed yours? Edit this file to match.
 #  Shell:  DankMaterialShell (DMS) — driven over `dms ipc call <target> <fn>`
 ###############################################################################
 
