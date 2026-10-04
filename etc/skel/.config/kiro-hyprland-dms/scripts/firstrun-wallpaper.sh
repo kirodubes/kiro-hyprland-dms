@@ -25,12 +25,22 @@ wallpaper="$HOME/.config/kiro-hyprland-dms/bg/kiro.jpg"
 [ -e "$stamp" ] && exit 0
 [ -f "$wallpaper" ] || exit 0
 
-# Poll for DMS IPC to come up (up to ~30s), then set the wallpaper.
+# DMS's backend answers IPC before the UI has finished its first launch, and that first
+# launch starts with an empty wallpaper again. So a successful `set` is not enough: keep
+# setting until `get` returns the Kiro wallpaper on 10 checks in a row (~5s stable), for up
+# to ~90s. Only then write the stamp.
 i=0
-while [ "$i" -lt 60 ]; do
-    if dms ipc call wallpaper set "$wallpaper" >/dev/null 2>&1; then
-        : > "$stamp"
-        exit 0
+stable=0
+while [ "$i" -lt 180 ]; do
+    if [ "$(dms ipc call wallpaper get 2>/dev/null)" = "$wallpaper" ]; then
+        stable=$((stable + 1))
+        if [ "$stable" -ge 10 ]; then
+            : > "$stamp"
+            exit 0
+        fi
+    else
+        stable=0
+        dms ipc call wallpaper set "$wallpaper" >/dev/null 2>&1
     fi
     i=$((i + 1))
     sleep 0.5

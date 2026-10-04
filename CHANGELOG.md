@@ -17,6 +17,12 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   `alacritty --class btop`, and the opacity rule only matched the class `Alacritty`, so btop stayed fully solid.
   btop now has its own, more transparent rule: 0.80 focused / 0.75 unfocused (terminals stay at 0.90 / 0.85).
   Values picked by eye on a QEMU install with a bright wallpaper.
+- The Kiro wallpaper now really shows on first login. `firstrun-wallpaper.sh` stamped itself done as soon as
+  `dms ipc call wallpaper set` succeeded, but DMS's backend answers before its UI finishes the first launch,
+  which then starts with an empty wallpaper, so users saw DMS's default background. The script now keeps setting
+  the wallpaper until `dms ipc call wallpaper get` returns `bg/kiro.jpg` on 10 checks in a row (~5s stable), for
+  up to ~90s, and only then writes the stamp. Tested on a QEMU install with DMS's first-launch marker removed:
+  session start 18:22:33, Kiro wallpaper at 18:22:37, stamp at 18:22:42.
 
 ### Technical Details
 - The new line is a `#` comment, which both kiro-keybindings parsers skip. Bindings are unchanged. All 111
@@ -25,6 +31,7 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/keybindings.txt`
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
+- `etc/skel/.config/kiro-hyprland-dms/scripts/firstrun-wallpaper.sh`
 
 ## 2026.10.03
 
