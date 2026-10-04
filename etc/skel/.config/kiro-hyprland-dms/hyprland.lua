@@ -210,9 +210,10 @@ hl.window_rule({ match = { class = "^(Spotify)$" }, tile = true })
 -- Smooth touchpad scrolling in terminals (from nemesis input config):
 hl.window_rule({ match = { class = "(Alacritty|kitty)" }, scroll_touchpad = 1.5 })
 -- Transparent terminal — compositor opacity (works in VBox/QEMU/bare-metal alike; Hyprland's
--- blur frosts it). active/inactive: 0.90/0.85. btop is listed too: its keybindings start it as
--- `alacritty --class btop`, which the plain "Alacritty" class would not match.
-hl.window_rule({ match = { class = "^(Alacritty|btop)$" }, opacity = "0.90 0.85" })
+-- blur frosts it). active/inactive: 0.90/0.85. btop gets its own, more transparent rule: its
+-- keybindings start it as `alacritty --class btop`, which the "Alacritty" class would not match.
+hl.window_rule({ match = { class = "^(Alacritty)$" }, opacity = "0.90 0.85" })
+hl.window_rule({ match = { class = "^(btop)$" }, opacity = "0.80 0.75" })
 
 -- ── Layer rules (DankMaterialShell) ────────────────────────────────────────
 -- DMS renders its bar, popups and WALLPAPER on Quickshell layer-shell surfaces in

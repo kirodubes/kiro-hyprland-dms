@@ -15,7 +15,8 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   App keys for apps the ISO doesn't ship (Brave, Chromium, Vivaldi, OBS, GIMP, Inkscape...) stay on purpose.
 - btop is now transparent like the terminals. Ctrl+Alt+End and Ctrl+Shift+Escape start it as
   `alacritty --class btop`, and the opacity rule only matched the class `Alacritty`, so btop stayed fully solid.
-  The rule now matches `^(Alacritty|btop)$` (0.90 focused / 0.85 unfocused). Tested on a QEMU install.
+  btop now has its own, more transparent rule: 0.80 focused / 0.75 unfocused (terminals stay at 0.90 / 0.85).
+  Values picked by eye on a QEMU install with a bright wallpaper.
 
 ### Technical Details
 - The new line is a `#` comment, which both kiro-keybindings parsers skip. Bindings are unchanged. All 111
