@@ -33,7 +33,9 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   `/etc/vconsole.conf` (written by `kiro_final` from the installer's choice); without it (live ISO) the old value stays.
   Kirotux Hyprland Premium can still override it per user in `appearance.lua`.
 - **Ctrl+Alt+H opens Kirotux Hyprland Premium** (theme, icons, cursor, font, window look, wallpaper, keyboard,
-  presets). The key used to start `hyprland-tweak-tool`, which no ISO ships any more.
+  presets). The key used to start `hyprland-tweak-tool`, which no ISO ships any more. This edition is used with and
+  without the app: where it isn't installed, the key shows a notification "Get Kirotux Hyprland Premium … Comes with
+  the KIROTUX ISOs." instead of doing nothing (only on the key press, never by itself).
 - `import-gsettings.sh` (runs at every login) now keeps a **Light** choice: it went `prefer-dark` unconditionally, so
   choosing Light in the app was undone at the next login. It also copies the cursor size into gsettings.
 
@@ -56,8 +58,9 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 - `import-gsettings.sh`: `color-scheme` follows `gtk-application-prefer-dark-theme` in `gtk-4.0/settings.ini`
   (`false`/`0` = light, anything else or no file = dark, as before); `gtk-cursor-theme-size` → `cursor-size`.
   Both new reads are `|| true`-guarded for the script's `set -euo pipefail`. Tested on the QEMU dms install.
-- Bind added after Ctrl+Alt+E (replacing the `hyprland-tweak-tool` line where it still existed); `keybindings.txt`
-  updated to match.
+- Bind added after Ctrl+Alt+E (replacing the `hyprland-tweak-tool` line where it still existed): `sh -c 'command -v
+  kirotux-hyprland-premium && exec kirotux-hyprland-premium; exec notify-send …'`. Tested on QEMU both ways (window
+  opens; DMS shows the notification, text fits). `keybindings.txt` says it comes with the KIROTUX ISOs.
 
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`

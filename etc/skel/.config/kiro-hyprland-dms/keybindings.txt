@@ -17,7 +17,7 @@
   ctrl + alt + C          Chromium
   ctrl + alt + D          OBS Studio
   ctrl + alt + E          Tweak tool
-  ctrl + alt + H          Kirotux Hyprland Premium
+  ctrl + alt + H          Kirotux Hyprland Premium (comes with the KIROTUX ISOs)
   ctrl + alt + F          Firefox
   ctrl + alt + G          Chromium
   ctrl + alt + I          Kiro ISO builder
