@@ -312,6 +312,7 @@ bind("CTRL + ALT + B",       "Brave",           run("brave --password-store=basi
 bind("CTRL + ALT + C",       "Chromium",        run("chromium -no-default-browser-check"))
 bind("CTRL + ALT + D",       "OBS Studio",      run("obs"))
 bind("CTRL + ALT + E",       "Tweak tool",      run("archlinux-tweak-tool"))
+bind("CTRL + ALT + H",       "Kirotux Hyprland Premium", run("kirotux-hyprland-premium"))
 bind("CTRL + ALT + F",       "Firefox",         run("firefox"))
 bind("CTRL + ALT + G",       "Chromium",        run("chromium -no-default-browser-check"))
 bind("CTRL + ALT + I",       "Kiro ISO builder", run("kiro-iso-builder"))

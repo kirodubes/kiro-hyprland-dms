@@ -31,12 +31,21 @@ get_setting() {
 GTK_THEME="$(get_setting gtk-theme-name)"
 ICON_THEME="$(get_setting gtk-icon-theme-name)"
 CURSOR_THEME="$(get_setting gtk-cursor-theme-name)"
+CURSOR_SIZE="$(get_setting gtk-cursor-theme-size || true)"
 FONT_NAME="$(get_setting gtk-font-name)"
 
 [ -n "$GTK_THEME" ]    && gsettings set "$GNOME_SCHEMA" gtk-theme   "$GTK_THEME"
 [ -n "$ICON_THEME" ]   && gsettings set "$GNOME_SCHEMA" icon-theme  "$ICON_THEME"
 [ -n "$CURSOR_THEME" ] && gsettings set "$GNOME_SCHEMA" cursor-theme "$CURSOR_THEME"
+if [ -n "$CURSOR_SIZE" ] && [ "$CURSOR_SIZE" != "0" ]; then
+    gsettings set "$GNOME_SCHEMA" cursor-size "$CURSOR_SIZE"
+fi
 [ -n "$FONT_NAME" ]    && gsettings set "$GNOME_SCHEMA" font-name   "$FONT_NAME"
-gsettings set "$GNOME_SCHEMA" color-scheme "prefer-dark"
+# Dark, unless the user chose Light (gtk-4.0/settings.ini, written by Kirotux Hyprland Premium's Look tab).
+DARK="$(grep -m1 '^gtk-application-prefer-dark-theme=' "${XDG_CONFIG_HOME:-$HOME/.config}/gtk-4.0/settings.ini" 2>/dev/null | cut -d= -f2 | tr -d '[:space:]' || true)"
+case "$DARK" in
+    false|0) gsettings set "$GNOME_SCHEMA" color-scheme "default" ;;
+    *)       gsettings set "$GNOME_SCHEMA" color-scheme "prefer-dark" ;;
+esac
 
 echo "GTK settings imported into gsettings"
