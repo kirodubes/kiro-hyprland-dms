@@ -28,6 +28,10 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 - `hyprland.lua` now ends with an **appearance loader**: `pcall(require, "appearance")` loads `appearance.lua` from
   the same folder when it exists. The upcoming Kirotux Hyprland Premium app writes the user's look there (only the
   values they changed), so it never edits `hyprland.lua` itself. No file = this edition's own look, as before.
+- **The keyboard layout now follows the installer.** `kb_layout` used to be hardcoded, so a user who picked German
+  in Calamares still typed US/Belgian in Hyprland. `hyprland.lua` now reads `XKBLAYOUT` / `XKBVARIANT` from
+  `/etc/vconsole.conf` (written by `kiro_final` from the installer's choice); without it (live ISO) the old value stays.
+  Kirotux Hyprland Premium can still override it per user in `appearance.lua`.
 
 ### Technical Details
 - The autostart `sh -c` first writes a timestamp and `WAYLAND_DISPLAY` to the log, then `exec dms run >>"$log" 2>&1`.
@@ -42,6 +46,9 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 - Proven on a QEMU kiro-hyprland-dms install (Hyprland 0.56.2): `package.path` starts with the config folder, a
   second `hl.config` merges, every reload re-reads the file, a missing file is silent, and a broken one is reported
   while the rest of the config still loads (`pcall`). The loader must stay the last lines so the user's choices win.
+- `installer_keyboard(fallback)` (Lua `io`) above `hl.config`; `kb_layout = kb_layout`, `kb_variant = kb_variant`.
+  Checked against `XKBLAYOUT=be`, quoted multi-layout values with variants, an empty value and a missing file.
+  On the QEMU dms install (installer: Belgian) Hyprland went from `us,be` to `be`, no config errors. Fallback here: `us,be`.
 
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
