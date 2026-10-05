@@ -66,6 +66,7 @@ hl.env("HYPRCURSOR_SIZE", "12")
 hl.env("XCURSOR_THEME", "Bibata-Modern-Ice")
 hl.env("GDK_BACKEND", "wayland,x11,*")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
+hl.env("QT_STYLE_OVERRIDE", "kvantum")   -- Qt style (was in /etc/environment)
 -- Force the gtk3 Qt platform theme so DMS's Qt6 Quickshell bar resolves SNI tray
 -- icons via the gsettings icon theme (Surfn). The global /etc/environment sets
 -- QT_QPA_PLATFORMTHEME=qt5ct, which Qt6 can't load (no qt6ct) → it falls back to

@@ -43,6 +43,9 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   browser and editor picked there. Without the file nothing changes.
 - **Super+F1 opens the browser variable, Super+F2 the editor variable** (they were fixed to `firefox` / `code`), so
   they follow the chosen apps too. Ctrl+Alt+F stays Firefox, like every Ctrl+Alt+letter key.
+- **The Qt style variables now come from this config**, not from `/etc/environment`: the Wayland ISOs keep only
+  `EDITOR` there from now on (`GTK_THEME` and `BROWSER` caused trouble: transparent GTK 4 windows, a browser default
+  that couldn't be changed). `QT_STYLE_OVERRIDE=kvantum` is set with `hl.env`, next to `QT_QPA_PLATFORMTHEME`.
 
 ### Technical Details
 - The autostart `sh -c` first writes a timestamp and `WAYLAND_DISPLAY` to the log, then `exec dms run >>"$log" 2>&1`.
@@ -68,6 +71,8 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   opens; DMS shows the notification, text fits). `keybindings.txt` says it comes with the KIROTUX ISOs.
 - `do local ok, apps = pcall(require, "kirotux_apps") ... end` after `local keybindings`; a missing file is silent.
   Tested on the QEMU dms install: Hyprland picked up `terminal = "alacritty", editor = "/usr/bin/subl"`, no errors.
+- `hl.env("QT_STYLE_OVERRIDE", "kvantum")` after the `QT_QPA_PLATFORM` line. Tested on the QEMU dms install: a
+  program started in the session gets both Qt variables from Hyprland; no config errors.
 
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
