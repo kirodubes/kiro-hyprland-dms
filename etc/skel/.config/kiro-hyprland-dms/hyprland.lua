@@ -405,6 +405,18 @@ bind("XF86AudioPrev",         "Previous track",  run("dms ipc call mpris previou
 bind("XF86MonBrightnessUp",   "Brightness up",   run([[dms ipc call brightness increment 5 ""]]), { locked = true })
 bind("XF86MonBrightnessDown", "Brightness down", run([[dms ipc call brightness decrement 5 ""]]), { locked = true })
 
+-- Wallpaper (Variety) — same scheme as kiro-hyprland. kiro-variety-config's set_wallpaper_kiro
+-- hands each wallpaper to DMS (dms ipc), so DMS re-themes from it like from its own picker.
+bind("ALT + N",     "Next wallpaper",     run("variety --next"))
+bind("ALT + Right", "Next wallpaper",     run("variety --next"))
+bind("ALT + P",     "Previous wallpaper", run("variety --previous"))
+bind("ALT + Left",  "Previous wallpaper", run("variety --previous"))
+bind("ALT + T",     "Trash wallpaper",    run("variety --trash"))
+bind("ALT + F",     "Favorite wallpaper", run("variety --favorite"))
+bind("ALT + Up",    "Pause wallpaper",    run("variety --pause"))
+bind("ALT + Down",  "Resume wallpaper",   run("variety --resume"))
+bind("ALT + W",     "Wallpaper selector", run("variety --selector"))
+
 -- Screenshots
 -- kiro-screenshot (kiro-wayland-dotfiles): PNG in ~/Pictures/Screenshots + clipboard + notify.
 bind("PRINT",           "Screenshot region", run("kiro-screenshot region"))

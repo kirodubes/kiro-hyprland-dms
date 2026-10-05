@@ -21,6 +21,10 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   AZERTY but Super+letter binds stayed on their QWERTY key positions. Now Super+A is the A printed on the key in
   whichever layout is active. Workspace binds use `code:` keys (physical positions) and are unchanged. Tested on a
   QEMU install of kiro-hyprland-dms.
+- Added the Variety wallpaper keybindings from kiro-hyprland: Alt+N / Alt+Right next, Alt+P / Alt+Left previous,
+  Alt+T trash, Alt+F favorite, Alt+Up pause, Alt+Down resume, Alt+W selector. Variety's wallpapers now reach DMS
+  (kiro-variety-config, same day), so the keys change the DMS wallpaper. Tested on the bare-metal box: all nine
+  binds load and `variety --next` changes DMS's wallpaper.
 
 ### Technical Details
 - The autostart `sh -c` first writes a timestamp and `WAYLAND_DISPLAY` to the log, then `exec dms run >>"$log" 2>&1`.
@@ -30,11 +34,14 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   If `qs` never appears, the script exits without writing the stamp, so it tries again at the next login.
 - Proven on the live ISO: with the unpacked UI folder moved aside, one `dms ipc call wallpaper get` created its
   own `.extract-*` folder.
+- The Variety block sits between the media keys and Screenshots, in `hyprland.lua` and `hyprland-hq-dualscreen.lua`;
+  no existing plain-Alt bind was taken. `keybindings.txt` gets section 6b, as in kiro-hyprland.
 
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
 - `etc/skel/.config/kiro-hyprland-dms/scripts/firstrun-wallpaper.sh`
 - `etc/skel/.config/kiro-hyprland-dms/hyprland-hq-dualscreen.lua`
+- `etc/skel/.config/kiro-hyprland-dms/keybindings.txt`
 
 ## 2026.10.04
 
