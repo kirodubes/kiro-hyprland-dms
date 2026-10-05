@@ -171,6 +171,7 @@ hl.config({
   input = {
     kb_layout = "us,be",                            -- US + Belgian
     kb_options = "grp:alt_shift_toggle,compose:caps",  -- Alt+Shift switches layouts; Caps = Compose
+    resolve_binds_by_sym = true,                    -- binds follow the active layout (Super+A = the A you see)
     repeat_rate = 40,
     repeat_delay = 600,
     follow_mouse = 1,

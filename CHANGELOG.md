@@ -16,6 +16,11 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   once made `dms run` fail. The script now waits until DMS is up before its first `dms ipc` call. Without DMS
   there was also no wallpaper and the terminal's transparency showed only black, so both are fixed with it.
   It hit the live ISO on any boot and an installed system only on its first login.
+- Keybindings now follow the active keyboard layout: `resolve_binds_by_sym = true` in the `input` block. With `us,be`
+  (or `be,us`), Hyprland used to read every bind as if the first layout were active, so after Alt+Shift you typed
+  AZERTY but Super+letter binds stayed on their QWERTY key positions. Now Super+A is the A printed on the key in
+  whichever layout is active. Workspace binds use `code:` keys (physical positions) and are unchanged. Tested on a
+  QEMU install of kiro-hyprland-dms.
 
 ### Technical Details
 - The autostart `sh -c` first writes a timestamp and `WAYLAND_DISPLAY` to the log, then `exec dms run >>"$log" 2>&1`.
@@ -29,6 +34,7 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
 - `etc/skel/.config/kiro-hyprland-dms/scripts/firstrun-wallpaper.sh`
+- `etc/skel/.config/kiro-hyprland-dms/hyprland-hq-dualscreen.lua`
 
 ## 2026.10.04
 
