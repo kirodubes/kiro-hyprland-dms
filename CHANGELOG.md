@@ -9,13 +9,26 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 - DMS's startup output is now saved to `$XDG_RUNTIME_DIR/dms-start.log`. On a QEMU live-ISO login the bar was
   missing: `dms run` started from `hyprland.start` left no process and no trace, while the same command run
   later in the session started DMS normally. The log should show why it exits at startup.
+- **Fixed the missing bar at first login** (found with that log). `dms run` sometimes exited at once with
+  `FATAL extract embedded UI: chtimes .../danklinux-shell/.extract-*/...: no such file or directory`. The
+  first-run wallpaper script started at the same moment and called `dms ipc` every 0.5s, and `dms ipc` unpacks
+  the embedded UI itself when it isn't there yet. Two unpacks into `$XDG_RUNTIME_DIR/danklinux-shell/` at
+  once made `dms run` fail. The script now waits until DMS is up before its first `dms ipc` call. Without DMS
+  there was also no wallpaper and the terminal's transparency showed only black, so both are fixed with it.
+  It hit the live ISO on any boot and an installed system only on its first login.
 
 ### Technical Details
 - The autostart `sh -c` first writes a timestamp and `WAYLAND_DISPLAY` to the log, then `exec dms run >>"$log" 2>&1`.
-  The VirtualBox `LIBGL_ALWAYS_SOFTWARE` switch is unchanged. Diagnostic only; nothing about how DMS starts changes.
+  The VirtualBox `LIBGL_ALWAYS_SOFTWARE` switch is unchanged.
+- `firstrun-wallpaper.sh` polls `pgrep -u "$(id -u)" -x qs` every 0.5s, up to 60s, before its loop. `qs` only
+  starts after `dms run` has finished unpacking, so the first `dms ipc` call finds the UI already in place.
+  If `qs` never appears, the script exits without writing the stamp, so it tries again at the next login.
+- Proven on the live ISO: with the unpacked UI folder moved aside, one `dms ipc call wallpaper get` created its
+  own `.extract-*` folder.
 
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
+- `etc/skel/.config/kiro-hyprland-dms/scripts/firstrun-wallpaper.sh`
 
 ## 2026.10.04
 

@@ -25,6 +25,14 @@ wallpaper="$HOME/.config/kiro-hyprland-dms/bg/kiro.jpg"
 [ -e "$stamp" ] && exit 0
 [ -f "$wallpaper" ] || exit 0
 
+# `dms ipc` unpacks the embedded UI itself when it isn't there yet; calling it while `dms run`
+# is still unpacking at first login makes `dms run` exit (FATAL extract embedded UI). Wait for qs.
+n=0
+until pgrep -u "$(id -u)" -x qs >/dev/null; do
+    n=$((n + 1)); [ "$n" -ge 120 ] && exit 0
+    sleep 0.5
+done
+
 # DMS's backend answers IPC before the UI has finished its first launch, and that first
 # launch starts with an empty wallpaper again. So a successful `set` is not enough: keep
 # setting until `get` returns the Kiro wallpaper on 10 checks in a row (~5s stable), for up
