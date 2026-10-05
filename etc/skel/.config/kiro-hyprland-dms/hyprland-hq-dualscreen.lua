@@ -447,3 +447,10 @@ bind("ALT + W",     "Wallpaper selector", run("variety --selector"))
 -- kiro-screenshot (kiro-wayland-dotfiles): PNG in ~/Pictures/Screenshots + clipboard + notify.
 bind("PRINT",           "Screenshot region", run("kiro-screenshot region"))
 bind(mod .. " + PRINT", "Screenshot screen", run("kiro-screenshot screen"))
+
+-- ── Appearance overrides (keep these lines LAST) ─────────────────────────────
+-- Kirotux Hyprland Premium writes your look to appearance.lua in this folder; it only
+-- holds the values you changed there. No file = this edition's own look. Put your own
+-- changes ABOVE these lines. pcall: a missing or broken file never breaks the session.
+local ok, err = pcall(require, "appearance")
+if not ok and not tostring(err):find("module 'appearance' not found", 1, true) then print("appearance.lua: " .. tostring(err)) end

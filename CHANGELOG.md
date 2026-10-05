@@ -25,6 +25,9 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   Alt+T trash, Alt+F favorite, Alt+Up pause, Alt+Down resume, Alt+W selector. Variety's wallpapers now reach DMS
   (kiro-variety-config, same day), so the keys change the DMS wallpaper. Tested on the bare-metal box: all nine
   binds load and `variety --next` changes DMS's wallpaper.
+- `hyprland.lua` now ends with an **appearance loader**: `pcall(require, "appearance")` loads `appearance.lua` from
+  the same folder when it exists. The upcoming Kirotux Hyprland Premium app writes the user's look there (only the
+  values they changed), so it never edits `hyprland.lua` itself. No file = this edition's own look, as before.
 
 ### Technical Details
 - The autostart `sh -c` first writes a timestamp and `WAYLAND_DISPLAY` to the log, then `exec dms run >>"$log" 2>&1`.
@@ -36,6 +39,9 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   own `.extract-*` folder.
 - The Variety block sits between the media keys and Screenshots, in `hyprland.lua` and `hyprland-hq-dualscreen.lua`;
   no existing plain-Alt bind was taken. `keybindings.txt` gets section 6b, as in kiro-hyprland.
+- Proven on a QEMU kiro-hyprland-dms install (Hyprland 0.56.2): `package.path` starts with the config folder, a
+  second `hl.config` merges, every reload re-reads the file, a missing file is silent, and a broken one is reported
+  while the rest of the config still loads (`pcall`). The loader must stay the last lines so the user's choices win.
 
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
