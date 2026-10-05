@@ -240,7 +240,9 @@ on_start("~/.config/kiro-hyprland-dms/scripts/import-gsettings.sh")   -- mirror 
 -- GPU rendering (no bar at login on VBoxSVGA; Hyprland drops it over invalid dmabuf modifiers on
 -- VMSVGA + 3D). Not QT_QUICK_BACKEND=software: Qt's software renderer leaves parts of the bar blank
 -- until hovered. Real hardware and QEMU keep GPU rendering. sh -c because on_start has no shell.
-on_start([[sh -c 'if [ "$(systemd-detect-virt)" = oracle ]; then export LIBGL_ALWAYS_SOFTWARE=1; fi; exec dms run']])
+-- Output goes to $XDG_RUNTIME_DIR/dms-start.log: the bar was missing on a live-ISO login while the same
+-- command started fine later, and without a log there is no trace of why it exited at startup.
+on_start([[sh -c 'log="$XDG_RUNTIME_DIR/dms-start.log"; echo "$(date) WAYLAND_DISPLAY=$WAYLAND_DISPLAY" >"$log"; if [ "$(systemd-detect-virt)" = oracle ]; then export LIBGL_ALWAYS_SOFTWARE=1; fi; exec dms run >>"$log" 2>&1']])
 -- First-login only: point DMS's wallpaper at the shipped Kiro wallpaper so the desktop is
 -- Kiro-branded out of the box (DMS then derives its matugen palette from it). Self-guards on
 -- a stamp file, so it is a no-op on every later login and never fights a user's later pick.

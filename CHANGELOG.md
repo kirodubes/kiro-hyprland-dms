@@ -3,6 +3,20 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.10.05
+
+### What Changed
+- DMS's startup output is now saved to `$XDG_RUNTIME_DIR/dms-start.log`. On a QEMU live-ISO login the bar was
+  missing: `dms run` started from `hyprland.start` left no process and no trace, while the same command run
+  later in the session started DMS normally. The log should show why it exits at startup.
+
+### Technical Details
+- The autostart `sh -c` first writes a timestamp and `WAYLAND_DISPLAY` to the log, then `exec dms run >>"$log" 2>&1`.
+  The VirtualBox `LIBGL_ALWAYS_SOFTWARE` switch is unchanged. Diagnostic only; nothing about how DMS starts changes.
+
+### Files Modified
+- `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
+
 ## 2026.10.04
 
 ### What Changed
