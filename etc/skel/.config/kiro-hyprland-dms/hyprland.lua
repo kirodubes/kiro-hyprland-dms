@@ -38,6 +38,18 @@ local editor      = "subl"                -- Sublime Text, the editor the ISO sh
 local logout      = "archlinux-logout"   -- Kiro logout dialog (archlinux-logout-gtk4), as on the other editions
 local keybindings = "kiro-keybindings"   -- searchable PySide6/QML cheatsheet (auto-detects Hyprland)
 
+-- Default apps picked in Kirotux Hyprland Premium (kirotux_apps.lua in this folder), else the ones above.
+-- Read here, before any key is bound, so the keys below open the chosen apps.
+do
+  local ok, apps = pcall(require, "kirotux_apps")
+  if ok and type(apps) == "table" then
+    term = apps.terminal or term
+    files = apps.files or files
+    browser = apps.browser or browser
+    editor = apps.editor or editor
+  end
+end
+
 -- DMS shell entry points (dms ipc call <target> <function>).
 local dms_launcher     = "dms ipc call spotlight toggle"
 local dms_controlpanel = "dms ipc call control-center toggle"
@@ -334,7 +346,7 @@ bind("CTRL + ALT + END",     "System monitor",  run("alacritty --class btop -e b
 bind("CTRL + SHIFT + Escape","System monitor",  run("alacritty --class btop -e btop"))
 
 -- Function keys (Kiro scheme)
-bind(mod .. " + F1",  "Firefox",      run("firefox"))
+bind(mod .. " + F1",  "Browser",      run(browser))
 bind(mod .. " + F2",  "Code editor",  run(editor))
 bind(mod .. " + F3",  "Inkscape",     run("inkscape"))
 bind(mod .. " + F4",  "GIMP",         run("gimp"))

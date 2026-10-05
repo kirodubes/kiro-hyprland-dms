@@ -34,7 +34,7 @@
   ctrl + alt + Z          Fastfetch tweak tool
   ctrl + alt + End        System monitor
   ctrl + shift + Escape   System monitor
-  super + F1              Firefox
+  super + F1              Browser (your default browser)
   super + F2              Code editor
   super + F3              Inkscape
   super + F4              GIMP

@@ -38,6 +38,11 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
   the KIROTUX ISOs." instead of doing nothing (only on the key press, never by itself).
 - `import-gsettings.sh` (runs at every login) now keeps a **Light** choice: it went `prefer-dark` unconditionally, so
   choosing Light in the app was undone at the next login. It also copies the cursor size into gsettings.
+- **Default apps follow Kirotux Hyprland Premium.** Right after the `local term/files/browser/editor` lines, before
+  any key is bound, `hyprland.lua` reads `kirotux_apps.lua` (written by the app) and uses the terminal, file manager,
+  browser and editor picked there. Without the file nothing changes.
+- **Super+F1 opens the browser variable, Super+F2 the editor variable** (they were fixed to `firefox` / `code`), so
+  they follow the chosen apps too. Ctrl+Alt+F stays Firefox, like every Ctrl+Alt+letter key.
 
 ### Technical Details
 - The autostart `sh -c` first writes a timestamp and `WAYLAND_DISPLAY` to the log, then `exec dms run >>"$log" 2>&1`.
@@ -61,6 +66,8 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 - Bind added after Ctrl+Alt+E (replacing the `hyprland-tweak-tool` line where it still existed): `sh -c 'command -v
   kirotux-hyprland-premium && exec kirotux-hyprland-premium; exec notify-send …'`. Tested on QEMU both ways (window
   opens; DMS shows the notification, text fits). `keybindings.txt` says it comes with the KIROTUX ISOs.
+- `do local ok, apps = pcall(require, "kirotux_apps") ... end` after `local keybindings`; a missing file is silent.
+  Tested on the QEMU dms install: Hyprland picked up `terminal = "alacritty", editor = "/usr/bin/subl"`, no errors.
 
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
