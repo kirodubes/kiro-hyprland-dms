@@ -6,6 +6,9 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 ## 2026.10.08
 
 ### What Changed
+- The session now runs `kiro-kvantum-default` at start (from kiro-wayland-dotfiles 2026.10.08): Qt apps get the
+  KvGnomeDark Kvantum theme, matching adw-gtk3-dark, unless the user picked an installed theme. Before, the
+  shipped ArcDark config pointed at a theme this ISO doesn't carry, so Qt apps used Kvantum's built-in look.
 - The comment above `QT_QPA_PLATFORMTHEME=gtk3` no longer says `/etc/environment` sets
   `QT_QPA_PLATFORMTHEME=qt5ct` — KIROTUX's `/etc/environment` holds only `EDITOR`. It now explains that Qt6
   needs a platform theme for the tray icons and that the session sets it because nothing else does.

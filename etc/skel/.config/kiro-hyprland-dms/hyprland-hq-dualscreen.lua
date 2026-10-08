@@ -282,6 +282,7 @@ on_start("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTO
 -- process /etc/xdg/autostart, so the xdg-user-dirs autostart never fires on its own. Idempotent.
 on_start("xdg-user-dirs-update")
 on_start("~/.config/kiro-hyprland-dms/scripts/import-gsettings.sh")   -- mirror GTK theme/icons/cursor/font into gsettings
+on_start("kiro-kvantum-default")   -- Qt: KvGnomeDark (matches adw-gtk3-dark) unless the user picked an installed Kvantum theme
 -- The whole desktop: DankMaterialShell (bar, launcher, lock, notifications, wallpaper,
 -- control center, session menu, polkit agent). `dms run` starts the Quickshell shell and
 -- its backend services — no separate polkit agent / bar / notifier is launched.
