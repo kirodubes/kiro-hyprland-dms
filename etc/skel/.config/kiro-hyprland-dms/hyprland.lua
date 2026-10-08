@@ -68,9 +68,9 @@ hl.env("GDK_BACKEND", "wayland,x11,*")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("QT_STYLE_OVERRIDE", "kvantum")   -- Qt style (was in /etc/environment)
 -- Force the gtk3 Qt platform theme so DMS's Qt6 Quickshell bar resolves SNI tray
--- icons via the gsettings icon theme (Surfn). The global /etc/environment sets
--- QT_QPA_PLATFORMTHEME=qt5ct, which Qt6 can't load (no qt6ct) → it falls back to
--- hicolor and app-specific tray icons like variety-indicator go blank. DMS exports
+-- icons via the gsettings icon theme (Surfn). Without a platform theme Qt6 falls back
+-- to hicolor and app-specific tray icons like variety-indicator go blank; KIROTUX's
+-- /etc/environment holds only EDITOR, so the session sets it here. DMS exports
 -- QT_QPA_PLATFORMTHEME_QT6=gtk3, but Qt6 does not honour the versioned variable, so
 -- the plain one must win here.
 hl.env("QT_QPA_PLATFORMTHEME", "gtk3")

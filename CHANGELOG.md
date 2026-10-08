@@ -3,6 +3,18 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.10.08
+
+### What Changed
+- The comment above `QT_QPA_PLATFORMTHEME=gtk3` no longer says `/etc/environment` sets
+  `QT_QPA_PLATFORMTHEME=qt5ct` — KIROTUX's `/etc/environment` holds only `EDITOR`. It now explains that Qt6
+  needs a platform theme for the tray icons and that the session sets it because nothing else does.
+  Comment only; the environment variables are unchanged.
+
+### Files Modified
+- etc/skel/.config/kiro-hyprland-dms/hyprland.lua
+- etc/skel/.config/kiro-hyprland-dms/hyprland-hq-dualscreen.lua
+
 ## 2026.10.05
 
 ### What Changed
