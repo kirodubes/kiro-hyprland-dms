@@ -6,11 +6,13 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 ## 2026.10.09
 
 ### What Changed
+- **Cursor size is 24 everywhere.** `hyprland.lua` set `XCURSOR_SIZE`/`HYPRCURSOR_SIZE` to 12, while the GTK settings files, the dconf defaults (`kiro-wayland-dotfiles`) and DMS all use 24. Apps and the compositor drew the cursor at different sizes. Both now say 24.
 - **The Ctrl+Alt+H notification now says where to get the premium app.** When `kirotux-hyprland-premium` isn't
   installed (free Kiro users), the "Get Kirotux Hyprland Premium" notification has a **Get KiroTux** button that
   opens https://kiroproject.be/kirotux.html. Before, it said the app comes with the KiroTux ISOs but gave no link.
 
 ### Technical Details
+- Changed in `hyprland.lua` and `hyprland-hq-dualscreen.lua` (the `/usr/share/kiro/kiro-hyprland-dms` golden copy is built from them). Existing installs keep their `~/.config` copy with 12 until the user changes it; no `~/.config` overwrite.
 - `notify-send -A get="Get KiroTux"` waits for the user and prints `get` when the button is clicked; the shell
   then `exec`s `xdg-open` on the page. Closing the notification prints nothing, so nothing opens. Links to the
   website, not the Ko-fi product, so the page explains KiroTux first and the bind survives a Ko-fi link change.
