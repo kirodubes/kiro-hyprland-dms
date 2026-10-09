@@ -345,7 +345,7 @@ bind("CTRL + ALT + E",       "Tweak tool",      run("archlinux-tweak-tool"))
 bind("CTRL + ALT + F",       "Firefox",         run("firefox"))
 bind("CTRL + ALT + G",       "Chromium",        run("chromium -no-default-browser-check"))
 -- Kirotux Hyprland Premium comes with the KIROTUX ISOs: open it, or tell users of this free edition where it is.
-bind("CTRL + ALT + H",       "Kirotux Hyprland Premium", run([[sh -c 'command -v kirotux-hyprland-premium >/dev/null && exec kirotux-hyprland-premium; exec notify-send -a "Kirotux" -i preferences-desktop-theme "Get Kirotux Hyprland Premium" "Theme, window look, wallpaper and keyboard in one app. Comes with the KIROTUX ISOs."']]))
+bind("CTRL + ALT + H",       "Kirotux Hyprland Premium", run([[sh -c 'command -v kirotux-hyprland-premium >/dev/null && exec kirotux-hyprland-premium; a=$(notify-send -a "Kirotux" -i preferences-desktop-theme -A get="Get KiroTux" "Get Kirotux Hyprland Premium" "Theme, window look, wallpaper and keyboard in one app. Comes with the KIROTUX ISOs."); [ "$a" = get ] && exec xdg-open https://kiroproject.be/kirotux.html']]))
 bind("CTRL + ALT + I",       "Kiro ISO builder", run("kiro-iso-builder"))
 bind("CTRL + ALT + L",       "Logout settings", run("archlinux-logout --settings"))
 bind("CTRL + ALT + M",       "USB image writer", run("mintstick -m iso"))

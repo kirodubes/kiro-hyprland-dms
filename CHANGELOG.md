@@ -3,6 +3,25 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.10.09
+
+### What Changed
+- **The Ctrl+Alt+H notification now says where to get the premium app.** When `kirotux-hyprland-premium` isn't
+  installed (free Kiro users), the "Get Kirotux Hyprland Premium" notification has a **Get KiroTux** button that
+  opens https://kiroproject.be/kirotux.html. Before, it said the app comes with the KiroTux ISOs but gave no link.
+
+### Technical Details
+- `notify-send -A get="Get KiroTux"` waits for the user and prints `get` when the button is clicked; the shell
+  then `exec`s `xdg-open` on the page. Closing the notification prints nothing, so nothing opens. Links to the
+  website, not the Ko-fi product, so the page explains KiroTux first and the bind survives a Ko-fi link change.
+- Same edit in both configs. The other Hyprland editions (kiro-hyprland, -noctalia, -noctura) keep the old line
+  for now: only DMS ships as a KiroTux ISO today.
+
+### Files Modified
+- `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
+- `etc/skel/.config/kiro-hyprland-dms/hyprland-hq-dualscreen.lua`
+- `CHANGELOG.md`
+
 ## 2026.10.08
 
 ### What Changed
