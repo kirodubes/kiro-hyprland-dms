@@ -94,10 +94,10 @@ Same Hyprland compositor, DMS as the shell. It is the Hyprland twin of
 
 ## Build / delivery
 - Source-of-truth for the config; delivered as the `kiro-hyprland-dms` package via
-  `../KIROTUX-PKG-BUILD/kiro-hyprland-dms/build.sh` (public recipe →
+  `~/KIRO-PKG-BUILD-APPS/kiro-hyprland-dms/build.sh` (public recipe →
   `~/EDU/nemesis_repo/`). After editing here: rebuild the package (recipe
   `build.sh` or `flow-kiro-hyprland-dms`), then the ISO to test a fresh install.
 - **Not boot-tested at authoring time** — Wayland-GPU editions black-screen in
   VirtualBox (no render node); verify on QEMU virtio-gpu or real metal before an
   ISO release (see the niri-dms lesson).
-- See [../CLAUDE.md](../CLAUDE.md) for the full KIROTUX delivery architecture.
+- See [KIROTUX/CLAUDE.md](../../KIROTUX/CLAUDE.md) for the full KIROTUX delivery architecture.

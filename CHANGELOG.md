@@ -3,6 +3,14 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.10.10
+
+### What Changed
+- Source repo moved from `~/KIROTUX/kiro-hyprland-dms` to `~/KIRO/kiro-hyprland-dms` and its recipe to `~/KIRO-PKG-BUILD-APPS/kiro-hyprland-dms`: ATT installs it from nemesis_repo, so it is a Kiro package, not KiroTux-only. Paths and links in the docs follow. The package itself is unchanged.
+
+### Files Modified
+- `CLAUDE.md`, `CHANGELOG.md`
+
 ## 2026.10.09
 
 ### What Changed
