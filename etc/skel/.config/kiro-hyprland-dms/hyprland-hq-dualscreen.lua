@@ -291,6 +291,8 @@ on_start("dms run")
 -- Kiro-branded out of the box (DMS then derives its matugen palette from it). Self-guards on
 -- a stamp file, so it is a no-op on every later login and never fights a user's later pick.
 on_start("~/.config/kiro-hyprland-dms/scripts/firstrun-wallpaper.sh")
+-- Alacritty follows DMS's wallpaper colours: create an alacritty.toml importing dank-theme.toml when there is none.
+on_start("~/.config/kiro-hyprland-dms/scripts/alacritty-colours.sh")
 -- Auto-open browsers at login; the window rules above park them on their workspaces/screens.
 on_start("firefox")           -- → ws10, left screen
 on_start("vivaldi-stable")    -- → ws20, right screen

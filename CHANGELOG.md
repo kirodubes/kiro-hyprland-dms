@@ -3,6 +3,19 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.10.23
+
+### What Changed
+- **Alacritty follows the wallpaper's colours.** DMS already wrote a terminal palette (`~/.config/alacritty/dank-theme.toml`) on every wallpaper change, but nothing imported it, so Alacritty kept its built-in colours. A login helper now gives users who have no `alacritty.toml` a small one that imports it. Every wallpaper change (Variety's Alt+N/P/T, or the DMS picker) recolours open terminals. Existing installs get it at the next login. Terminals opened before that keep their colours until reopened. An existing `alacritty.toml` (yours or kiro-dot-files') is never edited.
+
+### Technical Details
+- New `scripts/alacritty-colours.sh` (POSIX sh, like `firstrun-wallpaper.sh`), started with `on_start` after the first-run wallpaper script. It exits when `~/.config/alacritty/alacritty.toml` exists; otherwise it writes `[general] import = ["~/.config/alacritty/dank-theme.toml"]`. Alacritty watches imported files, so no reload is needed. No pywal: DMS's matugen makes the palette, about 1s after Variety hands DMS the wallpaper (measured on picard). Tested on picard with a live terminal and Alt+N.
+- Not shipped as `/etc/skel/.config/alacritty/alacritty.toml`: kiro-dot-files owns that path, so a second package shipping it would be a pacman file conflict.
+
+### Files Modified
+- `etc/skel/.config/kiro-hyprland-dms/scripts/alacritty-colours.sh` (new)
+- `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`, `etc/skel/.config/kiro-hyprland-dms/hyprland-hq-dualscreen.lua`
+
 ## 2026.10.10
 
 ### What Changed

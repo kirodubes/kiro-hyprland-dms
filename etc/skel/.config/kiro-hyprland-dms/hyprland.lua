@@ -279,6 +279,8 @@ on_start([[sh -c 'log="$XDG_RUNTIME_DIR/dms-start.log"; echo "$(date) WAYLAND_DI
 -- Kiro-branded out of the box (DMS then derives its matugen palette from it). Self-guards on
 -- a stamp file, so it is a no-op on every later login and never fights a user's later pick.
 on_start("~/.config/kiro-hyprland-dms/scripts/firstrun-wallpaper.sh")
+-- Alacritty follows DMS's wallpaper colours: create an alacritty.toml importing dank-theme.toml when there is none.
+on_start("~/.config/kiro-hyprland-dms/scripts/alacritty-colours.sh")
 -- Live ISO only: auto-launch the installer. archiso-gated; kiro_final strips this line on install.
 -- Wrapped in `sh -c` because hl.exec_cmd execs argv directly (no shell) — the `[ ]` test and `&&`
 -- need a real shell to be interpreted; a bare string would just try to exec a binary named "[".
