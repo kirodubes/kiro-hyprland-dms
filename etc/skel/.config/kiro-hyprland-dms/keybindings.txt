@@ -125,6 +125,11 @@
   alt + Up                Pause wallpaper
   alt + Down              Resume wallpaper
   alt + W                 Wallpaper selector
+  alt + shift + N         Next wallpaper
+  alt + shift + P         Previous wallpaper
+  alt + shift + T         Trash wallpaper
+  alt + shift + F         Favorite wallpaper
+  ctrl + ctrl             Switch keyboard layout (left + right Ctrl)
 
 ── 7. Screenshots ─────────────────────────────────────────────────────────────
   Print                   Screenshot region  -> ~/Pictures/Screenshots + clipboard

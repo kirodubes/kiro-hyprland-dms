@@ -188,7 +188,7 @@ hl.config({
   input = {
     kb_layout = kb_layout,                          -- installer choice, else US + Belgian
     kb_variant = kb_variant,
-    kb_options = "grp:alt_shift_toggle,compose:caps",  -- Alt+Shift switches layouts; Caps = Compose
+    kb_options = "grp:ctrls_toggle,compose:caps",  -- both Ctrl keys switch layouts (Alt+Shift stays free); Caps = Compose
     resolve_binds_by_sym = true,                    -- binds follow the active layout (Super+A = the A you see)
     repeat_rate = 40,
     repeat_delay = 600,
@@ -451,6 +451,12 @@ bind("ALT + F",     "Favorite wallpaper", run("variety --favorite"))
 bind("ALT + Up",    "Pause wallpaper",    run("variety --pause"))
 bind("ALT + Down",  "Resume wallpaper",   run("variety --resume"))
 bind("ALT + W",     "Wallpaper selector", run("variety --selector"))
+-- Alt+Shift: the same commands, so the keys match the editions where Alt+Shift+N recolours. Here DMS
+-- re-themes from every wallpaper, so Alt and Alt+Shift do the same thing.
+bind("ALT + SHIFT + N", "Next wallpaper",     run("variety --next"))
+bind("ALT + SHIFT + P", "Previous wallpaper", run("variety --previous"))
+bind("ALT + SHIFT + T", "Trash wallpaper",    run("variety --trash"))
+bind("ALT + SHIFT + F", "Favorite wallpaper", run("variety --favorite"))
 
 -- Screenshots
 -- kiro-screenshot (kiro-wayland-dotfiles): PNG in ~/Pictures/Screenshots + clipboard + notify.

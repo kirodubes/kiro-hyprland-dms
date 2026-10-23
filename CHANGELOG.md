@@ -7,14 +7,17 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 
 ### What Changed
 - **Alacritty follows the wallpaper's colours.** DMS already wrote a terminal palette (`~/.config/alacritty/dank-theme.toml`) on every wallpaper change, but nothing imported it, so Alacritty kept its built-in colours. A login helper now gives users who have no `alacritty.toml` a small one that imports it. Every wallpaper change (Variety's Alt+N/P/T, or the DMS picker) recolours open terminals. New installs only (skel); existing users can run `/etc/skel/.config/kiro-hyprland-dms/scripts/alacritty-colours.sh` once. Terminals opened before that keep their colours until reopened. An existing `alacritty.toml` (yours or kiro-dot-files') is never edited.
+- **Keyboard layout switch moves to both Ctrl keys; Alt+Shift+N/P/T/F change the wallpaper.** With two layouts (for example `us,be`), Alt+Shift switched the layout the moment both keys were down. Alt+Shift+N then switched the layout and changed the wallpaper too, because xkb took the Shift and Hyprland saw Alt+N. The layout switch is now left Ctrl + right Ctrl, as on kiro-wayfire. Alt+Shift+N/P/T/F run the same Variety commands as Alt+N/P/T/F, so the keys match the editions where Alt+Shift+N recolours. Here DMS re-themes from every wallpaper anyway. New installs only. Existing users: change `grp:alt_shift_toggle` to `grp:ctrls_toggle` in `~/.config/kiro-hyprland-dms/hyprland.lua` and copy the four `ALT + SHIFT` binds from `/etc/skel`.
 
 ### Technical Details
 - New `scripts/alacritty-colours.sh` (POSIX sh, like `firstrun-wallpaper.sh`), started with `on_start` after the first-run wallpaper script. It exits when `~/.config/alacritty/alacritty.toml` exists; otherwise it writes `[general] import = ["~/.config/alacritty/dank-theme.toml"]`. Alacritty watches imported files, so no reload is needed. No pywal: DMS's matugen makes the palette, about 1s after Variety hands DMS the wallpaper (measured on picard). Tested on picard with a live terminal and Alt+N.
 - Not shipped as `/etc/skel/.config/alacritty/alacritty.toml`: kiro-dot-files owns that path, so a second package shipping it would be a pacman file conflict.
+- `kb_options = "grp:ctrls_toggle,compose:caps"` in both hyprland.lua files. Tested on picard with `us,be` and real key presses: Ctrl+Ctrl switches layouts, Alt+Shift+N changes the wallpaper and keeps the layout. With `grp:ctrls_toggle` and no Alt+Shift binds, Alt+Shift+N did nothing (Hyprland got the real chord), so the binds are needed. The dual-screen config's Super+Alt+Shift workspace keys no longer meet the layout switch either. keybindings.txt lists the new keys.
 
 ### Files Modified
 - `etc/skel/.config/kiro-hyprland-dms/scripts/alacritty-colours.sh` (new)
 - `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`, `etc/skel/.config/kiro-hyprland-dms/hyprland-hq-dualscreen.lua`
+- `etc/skel/.config/kiro-hyprland-dms/keybindings.txt`
 
 ## 2026.10.10
 
