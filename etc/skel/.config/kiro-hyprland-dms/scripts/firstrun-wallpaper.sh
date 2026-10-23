@@ -8,8 +8,9 @@
 # Purpose:
 #   On the FIRST login of the Kiro Hyprland (DankMaterialShell) edition, set
 #   DMS's wallpaper to the shipped Kiro wallpaper so the desktop is
-#   Kiro-branded out of the box (DMS then derives its matugen palette from
-#   it). Guards on a stamp file so it runs exactly once.
+#   Kiro-branded out of the box, and switch DMS to its wallpaper (dynamic)
+#   theme so its matugen palette follows every wallpaper. Guards on a stamp
+#   file so it runs exactly once.
 # Why:
 #   This edition ships no DMS settings.json (DMS generates its own at
 #   runtime, and a hand-seeded partial file risks breaking its schema), so
@@ -43,6 +44,11 @@ while [ "$i" -lt 180 ]; do
     if [ "$(dms ipc call wallpaper get 2>/dev/null)" = "$wallpaper" ]; then
         stable=$((stable + 1))
         if [ "$stable" -ge 10 ]; then
+            # DMS starts on its fixed purple theme, so the bar, apps and Alacritty would not follow the wallpaper.
+            # Switch to the wallpaper (dynamic) theme once; DMS only applies it after a restart.
+            if [ "$(dms ipc call settings get currentThemeName 2>/dev/null)" != '"dynamic"' ]; then
+                dms ipc call settings set currentThemeName dynamic >/dev/null 2>&1 && dms restart >/dev/null 2>&1
+            fi
             : > "$stamp"
             exit 0
         fi
