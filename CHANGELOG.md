@@ -3,6 +3,20 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.10.24
+
+### What Changed
+- **Hyprland now starts through `start-hyprland`.** The session wrapper ran Hyprland directly under uwsm, so Hyprland 0.56 logged "launched without start-hyprland" and had no watchdog. `start-hyprland` runs Hyprland with `--watchdog-fd`, so a crashed or hung compositor can be recovered. Reaches every install with the package update; nothing to do in `~/.config`. Tested on the RTX 2060 test box with a fresh KiroTux Hyprland DMS install: 4 fast logout/login rounds, every time with working portals (ScreenCast, FileChooser) and DMS up.
+
+### Technical Details
+- `exec uwsm start -- Hyprland --config …` → `exec uwsm start -e -D Hyprland -- start-hyprland -- --config …`. `start-hyprland` passes everything after `--` to Hyprland and adds `--watchdog-fd`.
+- `-e -D Hyprland` keeps `XDG_CURRENT_DESKTOP=Hyprland`, so xdg-desktop-portal still picks the Hyprland backend.
+- The uwsm unit is now `wayland-wm@start\x2dhyprland.service` instead of `wayland-wm@Hyprland.service`; nothing in this package refers to the old name.
+
+### Files Modified
+- `usr/bin/kiro-hyprland-dms-session`
+- `CHANGELOG.md`
+
 ## 2026.10.23
 
 ### What Changed

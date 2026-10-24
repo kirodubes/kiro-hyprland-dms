@@ -15,6 +15,10 @@
 #   Hyprland but ship different configs. A per-edition --config folder keeps
 #   them cleanly separate, so switching editions never inherits a sibling's
 #   stale ~/.config/hypr/.
+#   start-hyprland (from the hyprland package) runs Hyprland with --watchdog-fd,
+#   so a crashed or hung compositor can be recovered; Hyprland 0.56 warns when
+#   it is launched without it. `-e -D Hyprland` keeps XDG_CURRENT_DESKTOP=Hyprland
+#   so the portals still pick the Hyprland backend.
 #####################################################################
 
-exec uwsm start -- Hyprland --config "$HOME/.config/kiro-hyprland-dms/hyprland.lua" "$@"
+exec uwsm start -e -D Hyprland -- start-hyprland -- --config "$HOME/.config/kiro-hyprland-dms/hyprland.lua" "$@"
