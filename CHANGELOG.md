@@ -7,14 +7,19 @@ Format: one entry per date (`YYYY.MM.DD`), newest first.
 
 ### What Changed
 - **Hyprland now starts through `start-hyprland`.** The session wrapper ran Hyprland directly under uwsm, so Hyprland 0.56 logged "launched without start-hyprland" and had no watchdog. `start-hyprland` runs Hyprland with `--watchdog-fd`, so a crashed or hung compositor can be recovered. Reaches every install with the package update; nothing to do in `~/.config`. Tested on the RTX 2060 test box with a fresh KiroTux Hyprland DMS install: 4 fast logout/login rounds, every time with working portals (ScreenCast, FileChooser) and DMS up.
+- **New keybindings from ohmychadwm, where the key was free:** Super+Shift+F file manager, Super+Shift+B browser, Super+Shift+M Spotify, Super+Ctrl+Shift+A AI agent (`claude` in the terminal), Super+Ctrl+A volume control, Super+Ctrl+L lock screen (DMS) and Alt+volume keys for 1% steps (DMS audio IPC, so the OSD shows). Super+K (focus up), Super+Shift+N (notification center) and the mic-mute key (DMS) were already in use and stay as they are. New installs only (skel). Existing users: copy the new `bind(...)` lines from `/etc/skel/.config/kiro-hyprland-dms/hyprland.lua` into `~/.config/kiro-hyprland-dms/hyprland.lua`.
 
 ### Technical Details
 - `exec uwsm start -- Hyprland --config …` → `exec uwsm start -e -D Hyprland -- start-hyprland -- --config …`. `start-hyprland` passes everything after `--` to Hyprland and adds `--watchdog-fd`.
 - `-e -D Hyprland` keeps `XDG_CURRENT_DESKTOP=Hyprland`, so xdg-desktop-portal still picks the Hyprland backend.
 - The uwsm unit is now `wayland-wm@start\x2dhyprland.service` instead of `wayland-wm@Hyprland.service`; nothing in this package refers to the old name.
+- Keybindings: each new bind sits next to its sibling (Super+Shift+F after Super+Shift+Return, …), uses the edition's own `files`/`browser`/`editor`/`term`/lock variables, and was added only where the chord was free (no existing bind changed). `keybindings.txt` updated in the same commit; duplicate-chord scan clean. Loaded on the RTX 2060 test box: no config errors, all 8 binds live in `hyprctl binds`.
 
 ### Files Modified
 - `usr/bin/kiro-hyprland-dms-session`
+- `etc/skel/.config/kiro-hyprland-dms/hyprland.lua`
+- `etc/skel/.config/kiro-hyprland-dms/hyprland-hq-dualscreen.lua`
+- `etc/skel/.config/kiro-hyprland-dms/keybindings.txt`
 - `CHANGELOG.md`
 
 ## 2026.10.23
