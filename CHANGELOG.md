@@ -3,6 +3,19 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.11.03
+
+### What Changed
+- Ctrl+Alt+H runs `kiro-premium-hint hyprland` (kiro-wayland-dotfiles) instead of an inline `sh -c` with an English
+  notify-send. The notification about the premium app is now translated in 13 languages.
+
+### Technical Details
+- Same behaviour: the premium app opens when it is installed; otherwise the notification shows with its
+  "Get KiroTux" button. The text and logic live once in kiro-wayland-dotfiles, which this edition depends on.
+
+### Files Modified
+- etc/skel/.config/kiro-hyprland-dms/hyprland.lua, hyprland-hq-dualscreen.lua
+
 ## 2026.10.24
 
 ### What Changed
