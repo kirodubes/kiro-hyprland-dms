@@ -23,7 +23,9 @@
 
 dir="$HOME/.config/kiro-hyprland-dms"
 stamp="$dir/.firstrun-wallpaper-done"
-theme_stamp="$dir/.firstrun-dynamic-theme-done"
+# v2 (2026.11.14): the first version lost the switch (see dynamic_theme), so installs stamped by it get one retry
+theme_stamp="$dir/.firstrun-dynamic-theme-v2-done"
+theme_tries="$dir/.firstrun-dynamic-theme-tries"
 wallpaper="$dir/bg/kiro.jpg"
 
 [ -e "$stamp" ] && [ -e "$theme_stamp" ] && exit 0
@@ -63,23 +65,37 @@ set_wallpaper() {
 
 # DMS starts on its fixed purple theme, so the bar, apps and Alacritty would not follow the wallpaper.
 # Only that untouched default is switched to the wallpaper (dynamic) theme: a theme the user picked stays.
-# DMS applies a theme set over IPC only after a restart. No answer from DMS: no stamp, try at the next login.
+# DMS applies a theme set over IPC only after a restart. Not confirmed: no stamp, try again at the next login (3 max).
 dynamic_theme() {
     [ -e "$theme_stamp" ] && return 0
+    tries="$(cat "$theme_tries" 2>/dev/null || echo 0)"
+    [ "$tries" -ge 3 ] && return 0
+    theme="$(theme_name)"
+    [ -n "$theme" ] || return 0
+    if [ "$theme" = '"purple"' ]; then
+        echo $((tries + 1)) > "$theme_tries"
+        dms ipc call settings set currentThemeName dynamic >/dev/null 2>&1 || return 0
+        # DMS saves a setting a moment after `set`: a restart right away loses it, which is why the first version
+        # of this step never worked (proven on picard, 2026-11-14). Wait, restart, and only stamp a confirmed switch.
+        sleep 2
+        dms restart >/dev/null 2>&1
+        sleep 3
+        [ "$(theme_name)" = '"dynamic"' ] || return 0
+    fi
+    : > "$theme_stamp"
+    rm -f "$theme_tries"
+}
+
+# DMS's theme name as JSON ("purple"), or empty when DMS doesn't answer within ~30s. Right after a start it first
+# answers "No running instances" and then "Target not found"; only a quoted value is real.
+theme_name() {
     i=0
-    theme=""
     while [ "$i" -lt 60 ]; do
         theme="$(dms ipc call settings get currentThemeName 2>/dev/null)"
-        case "$theme" in \"*\") break ;; esac
-        theme=""
+        case "$theme" in \"*) echo "$theme"; return 0 ;; esac
         i=$((i + 1))
         sleep 0.5
     done
-    [ -n "$theme" ] || return 0
-    if [ "$theme" = '"purple"' ]; then
-        dms ipc call settings set currentThemeName dynamic >/dev/null 2>&1 && dms restart >/dev/null 2>&1
-    fi
-    : > "$theme_stamp"
 }
 
 set_wallpaper

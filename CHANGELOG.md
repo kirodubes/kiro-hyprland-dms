@@ -3,6 +3,24 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.11.14
+
+### What Changed
+- First login now really switches DankMaterialShell to its wallpaper (Dynamic) theme. The old step never worked:
+  every install stayed on DMS's purple default, so the bar and apps never followed the wallpaper.
+
+### Technical Details
+- `scripts/firstrun-wallpaper.sh`: DMS saves a setting a moment after `dms ipc call settings set`, and the step ran
+  `dms restart` right away, which lost it (proven A/B on picard: restart at once = purple twice, after 2 s = Dynamic).
+  It now waits 2 s, restarts, and stamps only when DMS reports `dynamic`; otherwise it retries at the next login,
+  3 times at most (`.firstrun-dynamic-theme-tries`). New stamp `.firstrun-dynamic-theme-v2-done`. `theme_name()`
+  only accepts a quoted answer: right after a start DMS says "No running instances", then "Target not found".
+- Reaches new installs only: the script is copied from `/etc/skel` into the user's home. Tested on picard
+  (hyprland-dms): purple -> dynamic in ~6 s, saved, second run is a no-op, bar stays up.
+
+### Files Modified
+- etc/skel/.config/kiro-hyprland-dms/scripts/firstrun-wallpaper.sh, CHANGELOG.md
+
 ## 2026.11.03
 
 ### What Changed
