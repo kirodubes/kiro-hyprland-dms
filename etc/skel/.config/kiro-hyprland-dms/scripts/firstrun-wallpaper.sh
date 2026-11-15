@@ -19,6 +19,7 @@
 #   stamped a step is a no-op, so it never fights a wallpaper or theme the
 #   user later picks in DMS. The theme step came later (2026.10.23) with
 #   its own stamp, so existing installs get it once at their next login.
+#   Same for the screen-off step (2026.11.15).
 #####################################################################
 
 dir="$HOME/.config/kiro-hyprland-dms"
@@ -26,9 +27,10 @@ stamp="$dir/.firstrun-wallpaper-done"
 # v2 (2026.11.14): the first version lost the switch (see dynamic_theme), so installs stamped by it get one retry
 theme_stamp="$dir/.firstrun-dynamic-theme-v2-done"
 theme_tries="$dir/.firstrun-dynamic-theme-tries"
+screen_stamp="$dir/.firstrun-screen-off-done"
 wallpaper="$dir/bg/kiro.jpg"
 
-[ -e "$stamp" ] && [ -e "$theme_stamp" ] && exit 0
+[ -e "$stamp" ] && [ -e "$theme_stamp" ] && [ -e "$screen_stamp" ] && exit 0
 
 # `dms ipc` unpacks the embedded UI itself when it isn't there yet; calling it while `dms run`
 # is still unpacking at first login makes `dms run` exit (FATAL extract embedded UI). Wait for qs.
@@ -98,6 +100,25 @@ theme_name() {
     done
 }
 
+# DMS ships screen-off at 0 (never). Kiro turns the screen off after 15 min idle, like XFCE; the idle lock stays
+# off. Only the untouched default is changed: a timeout the user picked stays.
+screen_off() {
+    [ -e "$screen_stamp" ] && return 0
+    i=0
+    while [ "$i" -lt 60 ]; do
+        ac="$(dms ipc call settings get acMonitorTimeout 2>/dev/null)"
+        case "$ac" in
+            '' | *[!0-9]*) i=$((i + 1)); sleep 0.5; continue ;;
+        esac
+        [ "$ac" = 0 ] && dms ipc call settings set acMonitorTimeout 900 >/dev/null 2>&1
+        [ "$(dms ipc call settings get batteryMonitorTimeout 2>/dev/null)" = 0 ] \
+            && dms ipc call settings set batteryMonitorTimeout 900 >/dev/null 2>&1
+        : > "$screen_stamp"
+        return 0
+    done
+}
+
 set_wallpaper
 dynamic_theme
+screen_off
 exit 0

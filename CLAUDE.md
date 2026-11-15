@@ -67,6 +67,8 @@ Same Hyprland compositor, DMS as the shell. It is the Hyprland twin of
 - No DMS `settings.json` is seeded (runtime-generated; a partial seed risks its
   schema). Wallpaper is branded once via `scripts/firstrun-wallpaper.sh` (guarded,
   polls for `dms ipc` readiness) — same pattern as `kiro-niri-dms`.
+  The same script's `screen_off()` step sets DMS's screen-off to 15 min (`acMonitorTimeout` /
+  `batteryMonitorTimeout` 900, only where still 0) — DMS's own default is never. Idle lock stays off.
 
 ## Quickshell / noctalia incompatibility (hard conflict)
 - DMS 1.5.0 needs the **modern upstream `quickshell`** (extra, 0.3.0+). The **noctalia editions**

@@ -3,6 +3,26 @@
 All notable changes to this config package are documented here.
 Format: one entry per date (`YYYY.MM.DD`), newest first.
 
+## 2026.11.15
+
+### What Changed
+- The screen now turns off after 15 minutes idle, like XFCE. DankMaterialShell ships every idle timeout at 0
+  (never), so the screen stayed on for hours. The idle lock stays off; pick one in DMS Settings → Power if wanted.
+
+### Technical Details
+- `scripts/firstrun-wallpaper.sh`: new `screen_off()` step with its own stamp (`.firstrun-screen-off-done`). It waits
+  until `dms ipc call settings get acMonitorTimeout` answers a number, then sets `acMonitorTimeout` and
+  `batteryMonitorTimeout` to 900 only where they are still 0, so a timeout the user picked stays. Over IPC, not a
+  seeded `settings.json`, per this repo's rule. DMS reads the value live (IdleService binds it), no restart needed.
+- Proven on riker (Hyprland DMS): IPC set saves to `~/.config/dms/settings.json`; at 60 s both monitors went off
+  (`dpmsStatus` false); the script took 0/0 to 900/900 and wrote the stamp; a second run left a user's 600 alone.
+- Reaches new installs only (the script is copied from `/etc/skel`); existing installs get it with `skell`.
+  Same change in kiro-niri-dms.
+
+### Files Modified
+- `etc/skel/.config/kiro-hyprland-dms/scripts/firstrun-wallpaper.sh`
+- `CLAUDE.md`
+
 ## 2026.11.14
 
 ### What Changed
